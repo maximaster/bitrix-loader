@@ -1,0 +1,15 @@
+{
+  "packages": [
+    "php@7.4",
+    "php74Packages.composer@latest"
+  ],
+  "env": {
+    "PATH": "$PWD/vendor/bin:$PATH"
+  },
+  "shell": {
+    "scripts": {
+      "lint": "php-cs-fixer fix --allow-risky=yes --verbose --diff --dry-run && psalm.phar",
+      "fix": "php-cs-fixer fix --allow-risky=yes"
+    }
+  }
+}

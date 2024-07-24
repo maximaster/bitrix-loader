@@ -1,0 +1,22 @@
+{
+    "name": "maximaster/bitrix-loader",
+    "description": "Загружает Битрикс, получая информацию о DOCUMENT_ROOT из разных источников.",
+    "type": "library",
+    "require-dev": {
+        "kahlan/kahlan": "^5.2",
+        "friendsofphp/php-cs-fixer": "^3.59",
+        "psalm/phar": "^5.25"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Maximaster\\BitrixLoader\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Лавриненко Максим",
+            "email": "maxim.lavrinenko@maximaster.ru"
+        }
+    ]
+}
