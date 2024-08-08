@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Maximaster\BitrixLoader;
 
 use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * Загрузчик ядра Битрикс.
@@ -64,6 +65,33 @@ final class BitrixLoader
     }
 
     /**
+     * Из рабочей директории проверяется она же и вложенные директории с
+     * популярными названиями для DOCUMENT_ROOT аля public_html.
+     * Если директория содержит вложенную директорию bitrix/modules/main, то
+     * она считается DOCUMENT_ROOT.
+     *
+     * Не рекомендуется использовать метод для часто-запускаемых процессов.
+     *
+     * @throws RuntimeException
+     */
+    public static function fromGuess(): self
+    {
+        $workDirectory = getcwd();
+        foreach (['', 'htdocs', 'www', 'public', 'public_html', 'httpdocs', 'web', 'html'] as $documentRootName) {
+            $documentRoot = $workDirectory . DIRECTORY_SEPARATOR . $documentRootName;
+            $mainModulePath = $documentRoot . '/bitrix/modules/main';
+
+            if (realpath($mainModulePath) === false) {
+                continue;
+            }
+
+            return new self($documentRoot);
+        }
+
+        throw new RuntimeException(sprintf('Не удалось определить домашнюю директорию в текущей рабочей директории: %s.', $workDirectory));
+    }
+
+    /**
      * @throws InvalidArgumentException
      *
      * @psalm-param non-empty-string $documentRoot
@@ -96,5 +124,14 @@ final class BitrixLoader
 
         /** @psalm-suppress UnresolvableInclude */
         require_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php';
+    }
+
+    /**
+     * Объявить константы для запуска скрипта из консоли.
+     */
+    public function defineConsoleScriptConstants(): void
+    {
+        define('NO_KEEP_STATISTIC', true);
+        define('NOT_CHECK_PERMISSIONS', true);
     }
 }

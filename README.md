@@ -13,8 +13,10 @@ use Maximaster\BitrixLoader\BitrixLoader;
 $bitrixLoader = BitrixLoader::fromComposerConfigExtra(__DIR__ . '/composer.json', 'documentRoot');
 // или из переменной окружения:
 $bitrixLoader = BitrixLoader::fromEnvironment('BITRIX_DOCUMENT_ROOT');
-// Потом подключаем:
-$bitrixLoader->prologBefore();
+// или попытаться догадатсья:
+$bitrixLoader = BitrixLoader::fromGuess();
+// Потом подключаем, чтобы перед этим были объявлены консольные константы:
+$bitrixLoader->prologBefore(static fn () => $bitrixLoader->defineConsoleScriptConstants());
 ```
 
 ## Зачем?
