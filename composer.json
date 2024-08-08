@@ -18,5 +18,8 @@
             "name": "Лавриненко Максим",
             "email": "maxim.lavrinenko@maximaster.ru"
         }
-    ]
+    ],
+    "require": {
+        "ext-json": "*"
+    }
 }
