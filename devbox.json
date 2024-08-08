@@ -8,6 +8,7 @@
   },
   "shell": {
     "scripts": {
+      "test": "kahlan",
       "lint": "php-cs-fixer fix --allow-risky=yes --verbose --diff --dry-run && psalm.phar",
       "fix": "php-cs-fixer fix --allow-risky=yes"
     }
